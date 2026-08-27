@@ -16,6 +16,23 @@ load_dotenv()
 
 
 # =========================================================
+# CONFIGURATION HELPER
+# Works with both:
+# Local VS Code -> .env
+# Streamlit Cloud -> Secrets
+# =========================================================
+
+def get_config(key, default=None):
+
+    try:
+        value = st.secrets.get(key)
+    except Exception:
+        value = None
+
+    return value or os.getenv(key, default)
+
+
+# =========================================================
 # PAGE CONFIGURATION
 # =========================================================
 
@@ -121,7 +138,7 @@ st.markdown(
 # =========================================================
 
 client = genai.Client(
-    api_key=os.getenv("GEMINI_API_KEY")
+    api_key=get_config("GEMINI_API_KEY")
 )
 
 
@@ -132,11 +149,11 @@ client = genai.Client(
 def connect_to_sql():
 
     return mysql.connector.connect(
-        host=os.getenv("MYSQL_HOST"),
-        user=os.getenv("MYSQL_USER"),
-        password=os.getenv("MYSQL_PASSWORD"),
-        database=os.getenv("MYSQL_DATABASE"),
-        port=int(os.getenv("MYSQL_PORT", 3306))
+        host=get_config("MYSQL_HOST"),
+        user=get_config("MYSQL_USER"),
+        password=get_config("MYSQL_PASSWORD"),
+        database=get_config("MYSQL_DATABASE"),
+        port=int(get_config("MYSQL_PORT", 3306))
     )
 
 
@@ -374,7 +391,7 @@ if generate_button:
 
 
             # -------------------------------------------------
-            # CLOSE DATABASE
+            # CLOSE DATABASE CONNECTION
             # -------------------------------------------------
 
             cursor.close()
