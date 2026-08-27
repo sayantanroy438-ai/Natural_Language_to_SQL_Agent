@@ -162,9 +162,10 @@ def connect_to_sql():
 # =========================================================
 
 schema = """
+DATABASE SCHEMA:
+
 TABLE: bridge
 COLUMNS:
-bp INT
 Class TEXT
 FullName TEXT
 ID INT
@@ -173,7 +174,6 @@ Sex TEXT
 
 TABLE: chess
 COLUMNS:
-cp INT
 Class TEXT
 FullName TEXT
 ID INT
@@ -195,10 +195,20 @@ FullName TEXT
 HCode TEXT
 ID INT
 MTest INT
-newdob DATE
+New_DOB DATETIME
 PTest INT
 Remission INT
 Sex TEXT
+
+
+IMPORTANT:
+Use ONLY these four tables:
+bridge, chess, music, student.
+
+Do NOT use:
+pivottable
+student_rank_view
+transformed_students
 """
 
 
@@ -417,3 +427,4 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
