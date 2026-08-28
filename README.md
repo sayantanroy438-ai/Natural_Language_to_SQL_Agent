@@ -1,17 +1,20 @@
 # Natural_Language_to_SQL_Agent
-An AI-powered Natural Language to SQL Agent using Gemini AI, MySQL and Streamlit.
 
-🗄️ Database
+An AI-powered Natural Language to SQL Agent using Gemini AI, MySQL, and Streamlit.
 
-This project uses MySQL as its backend database, hosted on Aiven.
+## 🗄️ Database
 
-The application currently uses the defaultdb database and works with the following four tables:
+This project uses **MySQL** as its backend database, hosted on **Aiven**.
 
-student
-bridge
-chess
-music
+The application currently uses the `defaultdb` database and works with the following four tables:
 
-The database table structure is provided in database/schema.sql.
+* `student`
+* `bridge`
+* `chess`
+* `music`
 
-Database credentials and API keys are not included in this repository. They are securely managed using environment variables for local development and Streamlit Secrets for deployment.
+The database table structure is provided in [`database/schema.sql`](database/schema.sql).
+
+Database credentials and API keys are **not included in this repository**. They are securely managed using environment variables for local development and **Streamlit Secrets** for deployment.
+
+
