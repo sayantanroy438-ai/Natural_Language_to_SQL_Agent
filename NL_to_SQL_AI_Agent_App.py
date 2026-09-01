@@ -7,21 +7,13 @@ import mysql.connector
 from dotenv import load_dotenv
 from google import genai
 
-
-# =========================================================
 # LOAD ENVIRONMENT VARIABLES
-# =========================================================
-
 load_dotenv()
 
-
-# =========================================================
 # CONFIGURATION HELPER
 # Works with both:
 # Local VS Code -> .env
 # Streamlit Cloud -> Secrets
-# =========================================================
-
 def get_config(key, default=None):
 
     try:
@@ -31,22 +23,14 @@ def get_config(key, default=None):
 
     return value or os.getenv(key, default)
 
-
-# =========================================================
 # PAGE CONFIGURATION
-# =========================================================
-
 st.set_page_config(
     page_title="NL to SQL AI Agent",
     page_icon="🤖",
     layout="wide"
 )
 
-
-# =========================================================
 # CUSTOM CSS
-# =========================================================
-
 st.markdown(
     """
     <style>
@@ -115,11 +99,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-
-# =========================================================
 # HEADER
-# =========================================================
-
 st.markdown(
     '<div class="main-title">🤖 Natural Language to SQL AI Agent</div>',
     unsafe_allow_html=True
@@ -132,20 +112,12 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-
-# =========================================================
 # GEMINI CLIENT
-# =========================================================
-
 client = genai.Client(
     api_key=get_config("GEMINI_API_KEY")
 )
 
-
-# =========================================================
 # MYSQL CONNECTION
-# =========================================================
-
 def connect_to_sql():
 
     return mysql.connector.connect(
@@ -156,11 +128,7 @@ def connect_to_sql():
         port=int(get_config("MYSQL_PORT", 3306))
     )
 
-
-# =========================================================
 # DATABASE SCHEMA
-# =========================================================
-
 schema = """
 DATABASE SCHEMA:
 
@@ -211,11 +179,7 @@ student_rank_view
 transformed_students
 """
 
-
-# =========================================================
 # GENERATE SQL USING GEMINI
-# =========================================================
-
 def generate_sql_query(question):
 
     prompt = f"""
@@ -248,11 +212,7 @@ USER QUESTION:
 
     return response.text.strip()
 
-
-# =========================================================
 # USER QUESTION
-# =========================================================
-
 st.markdown(
     '<div class="section-title">💬 Ask Your Question</div>',
     unsafe_allow_html=True
@@ -264,21 +224,13 @@ question = st.text_input(
     label_visibility="collapsed"
 )
 
-
-# =========================================================
 # BUTTON
-# =========================================================
-
 generate_button = st.button(
     "✨ Generate SQL & Run Query",
     use_container_width=True
 )
 
-
-# =========================================================
 # MAIN PROCESS
-# =========================================================
-
 if generate_button:
 
     if not question:
@@ -289,18 +241,18 @@ if generate_button:
 
         try:
 
-            # -------------------------------------------------
+            
             # Generate SQL
-            # -------------------------------------------------
+            
 
             with st.spinner("🧠 Gemini is generating your SQL query..."):
 
                 sql_query = generate_sql_query(question)
 
 
-            # -------------------------------------------------
+            
             # SQL SECTION
-            # -------------------------------------------------
+            
 
             st.markdown(
                 '<div class="section-title">🧠 Generated SQL</div>',
@@ -313,9 +265,9 @@ if generate_button:
             )
 
 
-            # -------------------------------------------------
+            
             # DATABASE CONNECTION
-            # -------------------------------------------------
+            
 
             with st.spinner("🔗 Connecting to MySQL database..."):
 
@@ -324,9 +276,9 @@ if generate_button:
                 cursor = conn.cursor()
 
 
-            # -------------------------------------------------
+            
             # EXECUTE QUERY
-            # -------------------------------------------------
+            
 
             with st.spinner("⚡ Executing SQL query..."):
 
@@ -335,9 +287,9 @@ if generate_button:
                 results = cursor.fetchall()
 
 
-            # -------------------------------------------------
+            
             # CREATE DATAFRAME
-            # -------------------------------------------------
+            
 
             columns = [
                 column[0]
@@ -350,9 +302,9 @@ if generate_button:
             )
 
 
-            # -------------------------------------------------
+            
             # RESULT SUMMARY
-            # -------------------------------------------------
+            
 
             st.markdown(
                 '<div class="section-title">📊 Query Results</div>',
@@ -389,9 +341,9 @@ if generate_button:
             st.write("")
 
 
-            # -------------------------------------------------
+            
             # DATAFRAME
-            # -------------------------------------------------
+            
 
             st.dataframe(
                 df,
@@ -400,9 +352,9 @@ if generate_button:
             )
 
 
-            # -------------------------------------------------
+            
             # CLOSE DATABASE CONNECTION
-            # -------------------------------------------------
+            
 
             cursor.close()
             conn.close()
@@ -415,10 +367,7 @@ if generate_button:
             )
 
 
-# =========================================================
 # FOOTER
-# =========================================================
-
 st.markdown(
     """
     <div class="footer">
